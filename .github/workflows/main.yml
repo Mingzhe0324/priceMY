@@ -16,54 +16,116 @@ jobs:
         working-directory: PriceMY-v0.1-Prototype/PriceMY/apps/mobile
 
     steps:
+      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2. Install Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
 
+      # 3. Check Flutter version
       - name: Show Flutter version
         run: flutter --version
 
-      - name: Generate iOS project if missing
-        run: |
-          if [ ! -d "ios" ]; then
-            flutter create \
-              --platforms=ios \
-              --org my.pricemy \
-              --project-name pricemy \
-              .
-          fi
-
+      # 4. Get Flutter dependencies
       - name: Get Flutter dependencies
         run: flutter pub get
 
-      - name: Install CocoaPods
+      # 5. Make sure a complete iOS project exists
+      - name: Ensure complete iOS project
         run: |
-          cd ios
-          pod install
+          echo "Checking iOS project..."
 
+          if [ ! -f "ios/Runner.xcodeproj/project.pbxproj" ]; then
+            echo "iOS project missing or incomplete."
+            echo "Generating iOS project..."
+
+            flutter create \
+              --platforms=ios \
+              --org com.pricemy \
+              --project-name pricemy \
+              .
+          else
+            echo "iOS Xcode project already exists."
+          fi
+
+          echo "Contents of ios directory:"
+          ls -la ios
+
+      # 6. Install CocoaPods only when a Podfile exists
+      - name: Install CocoaPods dependencies
+        run: |
+          if [ -f "ios/Podfile" ]; then
+            echo "Podfile found."
+            echo "Installing CocoaPods dependencies..."
+
+            cd ios
+            pod install
+          else
+            echo "No Podfile found."
+            echo "Skipping manual CocoaPods installation."
+          fi
+
+      # 7. Clean project
+      - name: Clean Flutter project
+        run: flutter clean
+
+      # 8. Restore dependencies after clean
+      - name: Restore Flutter dependencies
+        run: flutter pub get
+
+      # 9. Build unsigned iOS application
       - name: Build iOS Release
-        run: flutter build ios --release --no-codesign
+        run: |
+          flutter build ios \
+            --release \
+            --no-codesign
 
+      # 10. Check whether Runner.app was successfully created
+      - name: Verify Runner.app
+        run: |
+          echo "Checking build output..."
+
+          if [ ! -d "build/ios/iphoneos/Runner.app" ]; then
+            echo "ERROR: Runner.app was not generated."
+
+            echo "Available .app files:"
+            find build -type d -name "*.app" 2>/dev/null || true
+
+            exit 1
+          fi
+
+          echo "Runner.app successfully generated."
+          ls -la build/ios/iphoneos/Runner.app
+
+      # 11. Package Runner.app as an IPA
       - name: Create IPA
         run: |
+          echo "Creating IPA..."
+
+          rm -rf build/ipa
           mkdir -p build/ipa/Payload
 
           cp -R \
             build/ios/iphoneos/Runner.app \
-            build/ipa/Payload/
+            build/ipa/Payload/Runner.app
 
           cd build/ipa
+
           zip -r PriceMY.ipa Payload
 
+          echo "IPA successfully created:"
+          ls -lh PriceMY.ipa
+
+      # 12. Upload IPA to GitHub Actions
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: PriceMY-IPA
+          name: PriceMY-AltStore-IPA
           path: PriceMY-v0.1-Prototype/PriceMY/apps/mobile/build/ipa/PriceMY.ipa
           if-no-files-found: error
           retention-days: 30
