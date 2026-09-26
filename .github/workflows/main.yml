@@ -1,55 +1,69 @@
-name: Build Flutter iOS IPA
+name: Build PriceMY IPA
 
 on:
-  push:
-    branches: [ "main", "master" ]
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
+  build-ios:
+    name: Build iOS IPA
     runs-on: macos-latest
+
+    defaults:
+      run:
+        working-directory: PriceMY-v0.1-Prototype/PriceMY/apps/mobile
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-
-      - name: Set up Flutter
+      - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.x'
-          channel: 'stable'
+          channel: stable
           cache: true
 
-      - name: Install dependencies and configure iOS
-        run: |
-          cd PriceMY-v0.1-Prototype/PriceMY/apps/mobile
-          flutter pub get
-          flutter create . --platforms=ios
+      - name: Show Flutter version
+        run: flutter --version
 
-      - name: Build iOS App (Unsigned/Profile)
+      - name: Generate iOS project if missing
         run: |
-          cd PriceMY-v0.1-Prototype/PriceMY/apps/mobile
-          flutter build ios --release --no-codesign
+          if [ ! -d "ios" ]; then
+            flutter create \
+              --platforms=ios \
+              --org my.pricemy \
+              --project-name pricemy \
+              .
+          fi
 
-      - name: Package IPA
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Install CocoaPods
         run: |
-          cd PriceMY-v0.1-Prototype/PriceMY/apps/mobile
-          APP_PATH=$(find build/ios/iphoneos -name "Runner.app" | head -n 1)
-          echo "Found app at: $APP_PATH"
-          mkdir -p Payload
-          cp -r "$APP_PATH" Payload/
+          cd ios
+          pod install
+
+      - name: Build iOS Release
+        run: flutter build ios --release --no-codesign
+
+      - name: Create IPA
+        run: |
+          mkdir -p build/ipa/Payload
+
+          cp -R \
+            build/ios/iphoneos/Runner.app \
+            build/ipa/Payload/
+
+          cd build/ipa
           zip -r PriceMY.ipa Payload
-          mkdir -p ../../../output
-          mv PriceMY.ipa ../../../output/
 
-      - name: Upload IPA Artifact
+      - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
           name: PriceMY-IPA
-          path: output/PriceMY.ipa
+          path: PriceMY-v0.1-Prototype/PriceMY/apps/mobile/build/ipa/PriceMY.ipa
+          if-no-files-found: error
+          retention-days: 30
