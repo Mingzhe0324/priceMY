@@ -33,7 +33,7 @@ jobs:
           # 自动补全或生成 iOS 平台原生配置文件夹
           flutter create . --platforms=ios
 
-      - name: Build iOS App (Unsigned/Profile)
+     - name: Build iOS App (Unsigned/Profile)
         run: |
           cd PriceMY-v0.1-Prototype/PriceMY/apps/mobile
           flutter build ios --release --no-codesign
@@ -41,8 +41,11 @@ jobs:
       - name: Package IPA
         run: |
           cd PriceMY-v0.1-Prototype/PriceMY/apps/mobile
+          # 自动寻找编译出来的 Runner.app 路径并打包
+          APP_PATH=$(find build/ios/iphoneos -name "Runner.app" | head -n 1)
+          echo "Found app at: $APP_PATH"
           mkdir -p Payload
-          cp -r build/ios/iphoneos/Runner.app Payload/
+          cp -r "$APP_PATH" Payload/
           zip -r PriceMY.ipa Payload
           mkdir -p ../../../output
           mv PriceMY.ipa ../../../output/
