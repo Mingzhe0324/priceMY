@@ -26,16 +26,16 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Install dependencies
+      - name: Install dependencies and configure iOS
         run: |
           cd PriceMY-v0.1-Prototype/PriceMY/apps/mobile
           flutter pub get
+          # 自动补全或生成 iOS 平台原生配置文件夹
+          flutter create . --platforms=ios
 
       - name: Build iOS App (Unsigned/Profile)
         run: |
           cd PriceMY-v0.1-Prototype/PriceMY/apps/mobile
-          # 使用 --no-codesign 可以在没有 Apple 开发者证书的情况下先编译出包，
-          # 之后通过 AltStore 导入时会由 AltStore 重新签名
           flutter build ios --release --no-codesign
 
       - name: Package IPA
