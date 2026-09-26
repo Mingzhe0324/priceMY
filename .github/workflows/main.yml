@@ -1,0 +1,54 @@
+name: Build Flutter iOS IPA
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.x' # 你可以根据项目需要调整 Flutter 版本
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: |
+          cd PriceMY-v0.1-Prototype/PriceMY/apps/mobile
+          flutter pub get
+
+      - name: Build iOS App (Unsigned/Profile)
+        run: |
+          cd PriceMY-v0.1-Prototype/PriceMY/apps/mobile
+          # 使用 --no-codesign 可以在没有 Apple 开发者证书的情况下先编译出包，
+          # 之后通过 AltStore 导入时会由 AltStore 重新签名
+          flutter build ios --release --no-codesign
+
+      - name: Package IPA
+        run: |
+          cd PriceMY-v0.1-Prototype/PriceMY/apps/mobile
+          mkdir -p Payload
+          cp -r build/ios/iphoneos/Runner.app Payload/
+          zip -r PriceMY.ipa Payload
+          mkdir -p ../../../output
+          mv PriceMY.ipa ../../../output/
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PriceMY-IPA
+          path: output/PriceMY.ipa
