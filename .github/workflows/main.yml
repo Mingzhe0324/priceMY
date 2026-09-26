@@ -22,7 +22,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.x' # 你可以根据项目需要调整 Flutter 版本
+          flutter-version: '3.47.5' # 你可以根据项目需要调整 Flutter 版本
           channel: 'stable'
           cache: true
 
