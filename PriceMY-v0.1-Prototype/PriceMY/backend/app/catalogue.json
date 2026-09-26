@@ -1,0 +1,795 @@
+{
+  "mock": true,
+  "as_of": "2026-09-26T12:00:00Z",
+  "retailers": [
+    {
+      "id": "r1",
+      "name": "Lotus's",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r2",
+      "name": "AEON",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r3",
+      "name": "AEON BiG",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r4",
+      "name": "99 Speedmart",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r5",
+      "name": "Econsave",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r6",
+      "name": "Jaya Grocer",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r7",
+      "name": "Village Grocer",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r8",
+      "name": "MYDIN",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r9",
+      "name": "Giant",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r10",
+      "name": "NSK",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r11",
+      "name": "TF Value-Mart",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r12",
+      "name": "Billion",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r13",
+      "name": "HeroMarket",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r14",
+      "name": "Segi Fresh",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r15",
+      "name": "KK Super Mart",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r16",
+      "name": "FamilyMart",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r17",
+      "name": "myNEWS",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r18",
+      "name": "CU",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r19",
+      "name": "Watsons",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r20",
+      "name": "Guardian",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r21",
+      "name": "MR D.I.Y.",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    },
+    {
+      "id": "r22",
+      "name": "Eco-Shop",
+      "coverage": "planned",
+      "integration_status": "not_connected"
+    }
+  ],
+  "branches": [
+    {
+      "id": "b1",
+      "retailer_id": "r1",
+      "name": "Mutiara Damansara",
+      "distance_km": 3.2,
+      "location_label": "Petaling Jaya \u00b7 demo location"
+    },
+    {
+      "id": "b2",
+      "retailer_id": "r2",
+      "name": "1 Utama",
+      "distance_km": 4.8,
+      "location_label": "Petaling Jaya \u00b7 demo location"
+    },
+    {
+      "id": "b3",
+      "retailer_id": "r4",
+      "name": "SS2",
+      "distance_km": 0.8,
+      "location_label": "Petaling Jaya \u00b7 demo location"
+    },
+    {
+      "id": "b4",
+      "retailer_id": "r6",
+      "name": "Starling Mall",
+      "distance_km": 1.6,
+      "location_label": "Petaling Jaya \u00b7 demo location"
+    },
+    {
+      "id": "b5",
+      "retailer_id": "r8",
+      "name": "PJ",
+      "distance_km": 6.4,
+      "location_label": "Petaling Jaya \u00b7 demo location"
+    }
+  ],
+  "products": [
+    {
+      "id": "p1",
+      "name": "Fresh Milk",
+      "brand": "Farm Fresh",
+      "variant": "Full Cream",
+      "size": 1000,
+      "unit": "ml",
+      "category": "Dairy",
+      "color": "DDEBDA",
+      "barcode": "DEMO-0001",
+      "mock": true
+    },
+    {
+      "id": "p2",
+      "name": "MILO",
+      "brand": "Nestl\u00e9",
+      "variant": "Original",
+      "size": 1000,
+      "unit": "g",
+      "category": "Drinks",
+      "color": "D6E8DB",
+      "barcode": "DEMO-0002",
+      "mock": true
+    },
+    {
+      "id": "p3",
+      "name": "White Bread",
+      "brand": "Gardenia",
+      "variant": "Original Classic",
+      "size": 400,
+      "unit": "g",
+      "category": "Bakery",
+      "color": "F4E7C9",
+      "barcode": "DEMO-0003",
+      "mock": true
+    },
+    {
+      "id": "p4",
+      "name": "Basmathi Rice",
+      "brand": "Jasmine",
+      "variant": "Pusa Cream",
+      "size": 5000,
+      "unit": "g",
+      "category": "Pantry",
+      "color": "E9E4D6",
+      "barcode": "DEMO-0004",
+      "mock": true
+    },
+    {
+      "id": "p5",
+      "name": "Cooking Oil",
+      "brand": "Buruh",
+      "variant": "Refined Palm",
+      "size": 5000,
+      "unit": "g",
+      "category": "Pantry",
+      "color": "F4E9BB",
+      "barcode": "DEMO-0005",
+      "mock": true
+    },
+    {
+      "id": "p6",
+      "name": "Dishwashing Liquid",
+      "brand": "Sunlight",
+      "variant": "Lemon",
+      "size": 900,
+      "unit": "ml",
+      "category": "Household",
+      "color": "E6ECD0",
+      "barcode": "DEMO-0006",
+      "mock": true
+    },
+    {
+      "id": "p7",
+      "name": "Fresh Milk",
+      "brand": "Farm Fresh",
+      "variant": "Low Fat",
+      "size": 1000,
+      "unit": "ml",
+      "category": "Dairy",
+      "color": "E2EBED",
+      "barcode": "DEMO-0007",
+      "mock": true
+    },
+    {
+      "id": "p8",
+      "name": "Fresh Milk",
+      "brand": "Farm Fresh",
+      "variant": "Full Cream",
+      "size": 2000,
+      "unit": "ml",
+      "category": "Dairy",
+      "color": "DDEBDA",
+      "barcode": "DEMO-0008",
+      "mock": true
+    }
+  ],
+  "offers": [
+    {
+      "id": "o1-1",
+      "product_id": "p1",
+      "retailer_id": "r1",
+      "branch_id": "b1",
+      "price_sen": 790,
+      "member_price_sen": null,
+      "source": "official_partner",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o1-2",
+      "product_id": "p1",
+      "retailer_id": "r2",
+      "branch_id": "b2",
+      "price_sen": 890,
+      "member_price_sen": 830,
+      "source": "catalogue",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o1-3",
+      "product_id": "p1",
+      "retailer_id": "r4",
+      "branch_id": "b3",
+      "price_sen": 750,
+      "member_price_sen": null,
+      "source": "receipt_verified",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o1-4",
+      "product_id": "p1",
+      "retailer_id": "r6",
+      "branch_id": "b4",
+      "price_sen": 950,
+      "member_price_sen": null,
+      "source": "community",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o1-5",
+      "product_id": "p1",
+      "retailer_id": "r8",
+      "branch_id": "b5",
+      "price_sen": 840,
+      "member_price_sen": null,
+      "source": "older_unverified",
+      "observed_at": "2026-08-01T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o2-1",
+      "product_id": "p2",
+      "retailer_id": "r1",
+      "branch_id": "b1",
+      "price_sen": 2390,
+      "member_price_sen": null,
+      "source": "official_partner",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o2-2",
+      "product_id": "p2",
+      "retailer_id": "r2",
+      "branch_id": "b2",
+      "price_sen": 2250,
+      "member_price_sen": 2190,
+      "source": "catalogue",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o2-3",
+      "product_id": "p2",
+      "retailer_id": "r4",
+      "branch_id": "b3",
+      "price_sen": 2450,
+      "member_price_sen": null,
+      "source": "receipt_verified",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o2-4",
+      "product_id": "p2",
+      "retailer_id": "r6",
+      "branch_id": "b4",
+      "price_sen": 2340,
+      "member_price_sen": null,
+      "source": "community",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o2-5",
+      "product_id": "p2",
+      "retailer_id": "r8",
+      "branch_id": "b5",
+      "price_sen": 2290,
+      "member_price_sen": null,
+      "source": "older_unverified",
+      "observed_at": "2026-08-01T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o3-1",
+      "product_id": "p3",
+      "retailer_id": "r1",
+      "branch_id": "b1",
+      "price_sen": 260,
+      "member_price_sen": null,
+      "source": "official_partner",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o3-2",
+      "product_id": "p3",
+      "retailer_id": "r2",
+      "branch_id": "b2",
+      "price_sen": 460,
+      "member_price_sen": 400,
+      "source": "catalogue",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o3-3",
+      "product_id": "p3",
+      "retailer_id": "r4",
+      "branch_id": "b3",
+      "price_sen": 350,
+      "member_price_sen": null,
+      "source": "receipt_verified",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o3-4",
+      "product_id": "p3",
+      "retailer_id": "r6",
+      "branch_id": "b4",
+      "price_sen": 300,
+      "member_price_sen": null,
+      "source": "community",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o3-5",
+      "product_id": "p3",
+      "retailer_id": "r8",
+      "branch_id": "b5",
+      "price_sen": 400,
+      "member_price_sen": null,
+      "source": "older_unverified",
+      "observed_at": "2026-08-01T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o4-1",
+      "product_id": "p4",
+      "retailer_id": "r1",
+      "branch_id": "b1",
+      "price_sen": 4550,
+      "member_price_sen": null,
+      "source": "official_partner",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o4-2",
+      "product_id": "p4",
+      "retailer_id": "r2",
+      "branch_id": "b2",
+      "price_sen": 4440,
+      "member_price_sen": 4380,
+      "source": "catalogue",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o4-3",
+      "product_id": "p4",
+      "retailer_id": "r4",
+      "branch_id": "b3",
+      "price_sen": 4390,
+      "member_price_sen": null,
+      "source": "receipt_verified",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o4-4",
+      "product_id": "p4",
+      "retailer_id": "r6",
+      "branch_id": "b4",
+      "price_sen": 4490,
+      "member_price_sen": null,
+      "source": "community",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o4-5",
+      "product_id": "p4",
+      "retailer_id": "r8",
+      "branch_id": "b5",
+      "price_sen": 4350,
+      "member_price_sen": null,
+      "source": "older_unverified",
+      "observed_at": "2026-08-01T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o5-1",
+      "product_id": "p5",
+      "retailer_id": "r1",
+      "branch_id": "b1",
+      "price_sen": 3140,
+      "member_price_sen": null,
+      "source": "official_partner",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o5-2",
+      "product_id": "p5",
+      "retailer_id": "r2",
+      "branch_id": "b2",
+      "price_sen": 3090,
+      "member_price_sen": 3030,
+      "source": "catalogue",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o5-3",
+      "product_id": "p5",
+      "retailer_id": "r4",
+      "branch_id": "b3",
+      "price_sen": 3190,
+      "member_price_sen": null,
+      "source": "receipt_verified",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o5-4",
+      "product_id": "p5",
+      "retailer_id": "r6",
+      "branch_id": "b4",
+      "price_sen": 3050,
+      "member_price_sen": null,
+      "source": "community",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o5-5",
+      "product_id": "p5",
+      "retailer_id": "r8",
+      "branch_id": "b5",
+      "price_sen": 3250,
+      "member_price_sen": null,
+      "source": "older_unverified",
+      "observed_at": "2026-08-01T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o6-1",
+      "product_id": "p6",
+      "retailer_id": "r1",
+      "branch_id": "b1",
+      "price_sen": 690,
+      "member_price_sen": null,
+      "source": "official_partner",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o6-2",
+      "product_id": "p6",
+      "retailer_id": "r2",
+      "branch_id": "b2",
+      "price_sen": 790,
+      "member_price_sen": 730,
+      "source": "catalogue",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o6-3",
+      "product_id": "p6",
+      "retailer_id": "r4",
+      "branch_id": "b3",
+      "price_sen": 650,
+      "member_price_sen": null,
+      "source": "receipt_verified",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o6-4",
+      "product_id": "p6",
+      "retailer_id": "r6",
+      "branch_id": "b4",
+      "price_sen": 850,
+      "member_price_sen": null,
+      "source": "community",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o6-5",
+      "product_id": "p6",
+      "retailer_id": "r8",
+      "branch_id": "b5",
+      "price_sen": 740,
+      "member_price_sen": null,
+      "source": "older_unverified",
+      "observed_at": "2026-08-01T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o7-1",
+      "product_id": "p7",
+      "retailer_id": "r1",
+      "branch_id": "b1",
+      "price_sen": 910,
+      "member_price_sen": null,
+      "source": "official_partner",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o7-2",
+      "product_id": "p7",
+      "retailer_id": "r2",
+      "branch_id": "b2",
+      "price_sen": 770,
+      "member_price_sen": 710,
+      "source": "catalogue",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o7-3",
+      "product_id": "p7",
+      "retailer_id": "r4",
+      "branch_id": "b3",
+      "price_sen": 970,
+      "member_price_sen": null,
+      "source": "receipt_verified",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o7-4",
+      "product_id": "p7",
+      "retailer_id": "r6",
+      "branch_id": "b4",
+      "price_sen": 860,
+      "member_price_sen": null,
+      "source": "community",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o7-5",
+      "product_id": "p7",
+      "retailer_id": "r8",
+      "branch_id": "b5",
+      "price_sen": 810,
+      "member_price_sen": null,
+      "source": "older_unverified",
+      "observed_at": "2026-08-01T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o8-1",
+      "product_id": "p8",
+      "retailer_id": "r1",
+      "branch_id": "b1",
+      "price_sen": 1450,
+      "member_price_sen": null,
+      "source": "official_partner",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o8-2",
+      "product_id": "p8",
+      "retailer_id": "r2",
+      "branch_id": "b2",
+      "price_sen": 1650,
+      "member_price_sen": 1590,
+      "source": "catalogue",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o8-3",
+      "product_id": "p8",
+      "retailer_id": "r4",
+      "branch_id": "b3",
+      "price_sen": 1540,
+      "member_price_sen": null,
+      "source": "receipt_verified",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o8-4",
+      "product_id": "p8",
+      "retailer_id": "r6",
+      "branch_id": "b4",
+      "price_sen": 1490,
+      "member_price_sen": null,
+      "source": "community",
+      "observed_at": "2026-09-26T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    },
+    {
+      "id": "o8-5",
+      "product_id": "p8",
+      "retailer_id": "r8",
+      "branch_id": "b5",
+      "price_sen": 1590,
+      "member_price_sen": null,
+      "source": "older_unverified",
+      "observed_at": "2026-08-01T04:00:00Z",
+      "valid_until": "2026-10-03T15:59:59Z",
+      "available": true,
+      "mock": true
+    }
+  ]
+}
