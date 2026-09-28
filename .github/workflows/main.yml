@@ -1,131 +1,71 @@
-name: Build PriceMY IPA
+name: Build iPhone IPA (AltStore)
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pricemy-ios-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-ios:
-    name: Build iOS IPA
-    runs-on: macos-latest
-
+    name: Build and package unsigned iPhone app
+    runs-on: macos-15
+    timeout-minutes: 45
     defaults:
       run:
-        working-directory: PriceMY-v0.1-Prototype/PriceMY/apps/mobile
-
+        working-directory: apps/mobile
     steps:
-      # 1. Checkout repository
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # 2. Install Flutter
-      - name: Setup Flutter
+      - uses: actions/checkout@v4
+      - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
-
-      # 3. Check Flutter version
-      - name: Show Flutter version
-        run: flutter --version
-
-      # 4. Get Flutter dependencies
-      - name: Get Flutter dependencies
+      - name: Generate iOS project
+        run: |
+          flutter --version
+          xcodebuild -version
+          flutter create --platforms=ios --org my.pricemy --project-name pricemy .
+          python3 - <<'PY'
+          from pathlib import Path
+          import plistlib
+          template = Path('test/widget_test.dart')
+          if template.exists() and 'Counter increments smoke test' in template.read_text():
+              template.unlink()
+          plist = Path('ios/Runner/Info.plist')
+          data = plistlib.loads(plist.read_bytes())
+          data['CFBundleDisplayName'] = 'PriceMY'
+          plist.write_bytes(plistlib.dumps(data))
+          PY
+      - name: Resolve dependencies
         run: flutter pub get
-
-      # 5. Make sure a complete iOS project exists
-      - name: Ensure complete iOS project
+      - name: Analyze Dart
+        run: flutter analyze --no-fatal-infos
+      - name: Run Flutter tests
+        run: flutter test
+      - name: Build physical-device release (unsigned)
+        env:
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+        run: flutter build ios --release --no-codesign --dart-define="API_BASE_URL=$API_BASE_URL"
+      - name: Package IPA for AltStore signing
         run: |
-          echo "Checking iOS project..."
-
-          if [ ! -f "ios/Runner.xcodeproj/project.pbxproj" ]; then
-            echo "iOS project missing or incomplete."
-            echo "Generating iOS project..."
-
-            flutter create \
-              --platforms=ios \
-              --org com.pricemy \
-              --project-name pricemy \
-              .
-          else
-            echo "iOS Xcode project already exists."
-          fi
-
-          echo "Contents of ios directory:"
-          ls -la ios
-
-      # 6. Install CocoaPods only when a Podfile exists
-      - name: Install CocoaPods dependencies
-        run: |
-          if [ -f "ios/Podfile" ]; then
-            echo "Podfile found."
-            echo "Installing CocoaPods dependencies..."
-
-            cd ios
-            pod install
-          else
-            echo "No Podfile found."
-            echo "Skipping manual CocoaPods installation."
-          fi
-
-      # 7. Clean project
-      - name: Clean Flutter project
-        run: flutter clean
-
-      # 8. Restore dependencies after clean
-      - name: Restore Flutter dependencies
-        run: flutter pub get
-
-      # 9. Build unsigned iOS application
-      - name: Build iOS Release
-        run: |
-          flutter build ios \
-            --release \
-            --no-codesign
-
-      # 10. Check whether Runner.app was successfully created
-      - name: Verify Runner.app
-        run: |
-          echo "Checking build output..."
-
-          if [ ! -d "build/ios/iphoneos/Runner.app" ]; then
-            echo "ERROR: Runner.app was not generated."
-
-            echo "Available .app files:"
-            find build -type d -name "*.app" 2>/dev/null || true
-
-            exit 1
-          fi
-
-          echo "Runner.app successfully generated."
-          ls -la build/ios/iphoneos/Runner.app
-
-      # 11. Package Runner.app as an IPA
-      - name: Create IPA
-        run: |
-          echo "Creating IPA..."
-
-          rm -rf build/ipa
-          mkdir -p build/ipa/Payload
-
-          cp -R \
-            build/ios/iphoneos/Runner.app \
-            build/ipa/Payload/Runner.app
-
-          cd build/ipa
-
-          zip -r PriceMY.ipa Payload
-
-          echo "IPA successfully created:"
-          ls -lh PriceMY.ipa
-
-      # 12. Upload IPA to GitHub Actions
-      - name: Upload IPA
+          test -d build/ios/iphoneos/Runner.app
+          mkdir -p build/altstore/Payload
+          ditto build/ios/iphoneos/Runner.app build/altstore/Payload/Runner.app
+          cd build/altstore
+          /usr/bin/zip -qry PriceMY-unsigned.ipa Payload
+          /usr/bin/unzip -t PriceMY-unsigned.ipa
+          shasum -a 256 PriceMY-unsigned.ipa > PriceMY-unsigned.ipa.sha256
+      - name: Save IPA download
         uses: actions/upload-artifact@v4
         with:
           name: PriceMY-AltStore-IPA
-          path: PriceMY-v0.1-Prototype/PriceMY/apps/mobile/build/ipa/PriceMY.ipa
+          path: |
+            apps/mobile/build/altstore/PriceMY-unsigned.ipa
+            apps/mobile/build/altstore/PriceMY-unsigned.ipa.sha256
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 7
