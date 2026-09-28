@@ -1,0 +1,11 @@
+.dart_tool/
+build/
+.flutter-plugins*
+**/__pycache__/
+.pytest_cache/
+.venv/
+.env
+*.jks
+*.keystore
+**/local.properties
+.DS_Store

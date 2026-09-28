@@ -1,96 +1,65 @@
-# PriceMY · v0.1 Prototype
+# PriceMY 0.2 — PriceCatcher integration
 
-面向马来西亚的价格比较项目第一版。Flutter / Dart 前端 + FastAPI 模拟 API + Supabase SQL 架构。
+Flutter Android/iOS application plus FastAPI. Real official price observations replace the fictional catalogue. **This is source code, not an IPA or a deployed service.**
 
-**这是开发原型，不是已上线的比价服务。所有价格、分店距离、来源标签均为模拟；没有已接通的 retailer。**
+## Included coverage
 
-## 先体验界面（无需安装）
+Initial offline snapshot: Selangor / Petaling, 269 monitored items, 41 premises, 10,075 observations. Newest observation in this downloaded region: **2026-09-24**. Dates in the dataset, rather than portal publication dates, determine freshness.
 
-解压后双击 `preview/index.html`，用 Chrome 或 Edge 打开。
-这是独立的 HTML 交互设计预览，**不是 Flutter 编译产物**；使用同一套商品和价格 fixture。不需要服务器或联网。
+- Browse/search monitored items, compare latest observations by premise, inspect dated history.
+- Save quantities in a device-local shopping list; compare complete single-store baskets and item-price splits.
+- Reject prices older than seven days from current ranking using the actual device/server clock; still display older records.
+- Optional HTTPS backend refresh, cached locally. Refresh failure retains the last snapshot.
+- Screen fade/slide transitions honour reduced motion; product Hero transitions retained.
+- No mock login. No fabricated GTIN, membership prices, stock, distances or promotion validity. Barcode and receipt features explicitly unavailable.
 
-体验路径：Splash → Onboarding → Login/Register（演示）→ Explore as guest → Home → Compare → Add to my list → My list → Scan → Profile。
+PriceCatcher item codes do **not** establish exact brand/variant/GTIN equivalence. The catalogue is for monitored-item comparisons, not a complete barcode catalogue. Premise records are not inferred retailer chains. The `retailers` field currently has explicit `premise_not_chain` identities, preserving independently addressable premises without guessing brand affiliation.
 
-- 搜索 `milk` 可看到不同口味、不同容量独立的商品。
-- 扫码演示用 `DEMO-0001`；点击 Simulate a successful scan 也可以。
-- Cheapest / Best value 切换，会员价可开关。
-- 清单数量和价格提醒目标保存在本机；提醒尚不发送通知。
-- Chrome 的本地文件存储策略可能不同；无法持久化时仍可体验当前会话。
+## Run the API
 
-## Flutter：Windows 11 + VS Code
-
-1. 安装 Flutter SDK、VS Code Flutter 扩展；Android 真机/模拟器还需要 Android SDK。
-2. 解压项目并用 VS Code 打开 `PriceMY` 文件夹。
-3. 在终端运行 `flutter doctor`，处理目标平台所需项目。
-4. 在 PowerShell 运行 `./scripts/bootstrap.ps1`。如本机策略不允许运行脚本，直接使用以下命令，无需修改全局执行策略：
-
-```powershell
-cd apps/mobile
-flutter create --platforms=android,ios,web --org my.pricemy --project-name pricemy .
-flutter pub get
-# flutter create 若生成默认 counter 测试，仅删除 test/widget_test.dart；保留 catalogue_test.dart。
-flutter analyze
-flutter test
-flutter run -d chrome
-```
-
-Android：`flutter devices` 查看设备，执行 `flutter run -d <device-id>`。
-macOS：从根目录 `bash scripts/bootstrap.sh`，再进入 `apps/mobile` 运行 `flutter run`。
-iOS 构建必须在配置 Xcode 的 macOS 环境完成；Windows 可开发共享 Dart 代码及 Android 版本。
-
-本包保留 Flutter 应用源码和 pubspec；Android/iOS/Web 平台壳由本机 Flutter 工具生成，避免伪造或提供过期的 Gradle、Xcode 工程。首次 bootstrap 后请把生成的平台文件、pubspec.lock 提交到自己的 Git 仓库。
-
-**当前环境没有 Flutter SDK；本次未执行 flutter analyze、flutter test 或 Android/iOS 构建。** Dart 语法解析不能替代 Flutter 编译。包中测试与 CI 可在安装 Flutter 的环境运行。
-
-## FastAPI（独立模拟服务）
-
-```powershell
+```bash
 cd backend
-python -m venv .venv
-.venv\Scripts\python -m pip install -r requirements-dev.txt
-.venv\Scripts\python -m uvicorn app.main:app --reload
+python -m pip install -r requirements.txt
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
-打开 `http://127.0.0.1:8000/docs` 查看 API。Linux/macOS 使用 `.venv/bin/python`。
+Open `/docs`. `GET /v1/catalogue` provides the snapshot, `/v1/products?q=AYAM` searches, `/v1/products/pc-1/offers` compares, `/history` retains dated observations, and `POST /v1/baskets/compare` compares baskets. There is no user-data write endpoint. The application reads atomically replaced snapshots without needing a restart.
 
-Flutter 默认从本地 JSON 加载，不依赖 API；这一版尚未切换到 HTTP repository 或 Supabase Auth。FastAPI 提供同一数据的读取和比价接口，便于下一阶段联调。
+## Refresh official data
 
-## 已实现与边界
+From the project root:
 
-| 能力 | 当前状态 |
-|---|---|
-| Splash / 3 步 Onboarding / Login / Register | UI；表单校验；登录无网络账号 |
-| Home / Search / Compare / Profile | Flutter 源码 + 可运行 HTML 预览 |
-| Barcode | 输入示例码、成功/失败演示；无摄像头 |
-| 同款比较 | 由 canonical product ID 隔离品牌、口味、容量 |
-| Cheapest / Member / Unit price | 基于模拟 offer 计算 |
-| Best Value | 可解释的价格 + 往返距离成本公式；不是 AI |
-| Shopping List / Compare Basket / Smart Split | 数量增减、完整单店购物篮、逐商品低价拆单 |
-| Price Alerts | 本地保存目标价；无后台监控和推送 |
-| Price History | 诚实空状态；后端返回观察记录，无虚构趋势 |
-| Retailers | 22 个计划品牌；5 个品牌有示例 offer；全部未连接 |
-| Receipt / Monthly Savings | 预览/空状态；无 OCR、无伪造节省金额 |
-| Supabase | migration + RLS + private receipt bucket，未部署 |
-| AI / Nearby live map / Deals feed | 下一阶段；只有扩展接口/设计说明 |
+```bash
+python scripts/import_pricecatcher.py --state Selangor --district Petaling
+```
 
-## 目录
+The importer downloads official item/premise CSVs and current/previous month records, keeps the latest seven observation dates in the selected region and atomically replaces backend/mobile snapshots. It records URLs, hashes and attribution. For another district, change both parameters; pass empty strings for broader coverage. Do not run simultaneous import jobs. Downloads remain in `backend/downloads` and are not included in the deliverable.
 
-- `apps/mobile/lib/core`：主题、本地状态
-- `apps/mobile/lib/data`：实体、repository 边界、mock repository、排名
-- `apps/mobile/lib/features`：入口、首页、比较、扫描、购物清单
-- `apps/mobile/lib/widgets`：公共卡片、标签、商品占位插画
-- `backend/app`：FastAPI、领域计算、未来数据源和 AI 接口
-- `supabase/migrations`：商品、retailer、分店、历史价格、用户、清单、收据、RLS
-- `preview`：离线可点击设计预览
-- `docs`：架构说明、验证记录、预览截图
-- `scripts`：平台生成与本地验证
+Example daily server cron (paths and Python executable must match deployment):
 
-## 扩展 retailer
+```cron
+30 5 * * * cd /srv/PriceMY && /usr/bin/python3 scripts/import_pricecatcher.py --state Selangor --district Petaling >> /var/log/pricemy-import.log 2>&1
+```
 
-不要在 Flutter 页面里加商店条件分支。先添加 retailer/branch 数据，再通过服务端适配器导入价格、保留 provenance，并经过 canonical product 匹配。前端按数据渲染。沙巴/砂拉越通过 retailer.regions 与 branch.state 扩展；未虚构区域品牌的合作关系。
+This example assumes the server uses UTC (13:30 Malaysia). Monitor job failures and actual observation dates. The schedule is an example; no server or scheduled task has been deployed by this package.
 
-## 官方参考
+## Android / iPhone
 
-- Flutter 项目：https://docs.flutter.dev/reference/create-new-app
-- iOS 环境：https://docs.flutter.dev/platform-integration/ios/setup
-- Supabase RLS：https://supabase.com/docs/guides/database/postgres/row-level-security
+Install Flutter, then run `scripts/bootstrap.ps1` (Windows) or `bash scripts/bootstrap.sh`. Only Android/iOS are supported by this version; networking uses dart:io.
+
+```bash
+cd apps/mobile
+flutter run --dart-define=API_BASE_URL=https://YOUR-DEPLOYED-API
+```
+
+Without API_BASE_URL the official bundled snapshot works offline. With a deployed HTTPS endpoint, Profile → Refresh loads the server snapshot. API_BASE_URL is public configuration, not a secret. No automatic background fetching is claimed.
+
+See `START-HERE-IPHONE.md` for GitHub's macOS build → unsigned IPA → AltStore Classic. Optional GitHub repository variable `API_BASE_URL` is passed into the iOS build. No Apple credentials are needed in GitHub. This environment has not executed the Flutter/macOS build.
+
+## Not yet connected
+
+GPS and geocoded premise coordinates, national deployment, Supabase authentication/storage, barcode mapping, receipt OCR, push alerts, membership offers and travel-based Best Value. Supabase migration 001 is a future schema scaffold, not the active PriceCatcher store. No retailer partnerships are implied.
+
+## Attribution
+
+KPDN / DOSM, [PriceCatcher](https://data.gov.my/data-catalogue/pricecatcher), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Source CSV data is transformed by region/date filtering, item/premise joins and RM-to-sen conversion. Price observations do not guarantee current shelf prices or availability.
